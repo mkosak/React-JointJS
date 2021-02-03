@@ -25,3 +25,5 @@ yarn-error.log*
 # VS Code
 .history
 .history/
+
+.eslintcache
