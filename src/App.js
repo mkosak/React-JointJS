@@ -1,7 +1,7 @@
 import React from 'react';
 import * as joint from 'jointjs';
 
-import './App.scss';
+import './App.css';
 
 import AddPort from './components/controls/AddPort';
 
