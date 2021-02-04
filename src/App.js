@@ -106,7 +106,11 @@ class App extends React.Component {
         if (!ports.includes(name)) {
             ports.push(name);
         } else {
-            this.setState({ error: 'Port already exist' });
+            this.setState({ error: 'Port already exist' }, () => {
+                setTimeout(() => {
+                    this.setState({ error: '' });
+                }, 1000);
+            });
         }
 
         this.setState({ options: { ...options, [type]: ports } });
