@@ -18,7 +18,6 @@
     "react/jsx-indent": [2, 4],
     "react/jsx-indent-props": [2, 4],
     "react/static-property-placement": 0,
-    "react/destructuring-assignment": 0,
     "react/no-access-state-in-setstate": 0,
     "babel/no-invalid-this": 1,
     "jsx-a11y/no-noninteractive-element-interactions": 0,

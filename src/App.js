@@ -1,73 +1,68 @@
 import React from 'react';
 import * as joint from 'jointjs';
+import AddPort from './components/AddPort';
 
-import './App.css';
-
-import AddPort from './components/controls/AddPort';
+import colors from './colors.module.scss';
+import './App.scss';
 
 class App extends React.Component {
-    static options = {
-        posts: {
-            groups: {
-                in: {
-                    attrs: {
-                        '.port-body': {
-                            fill: '#16A085',
-                        },
-                    },
-                },
-                out: {
-                    attrs: {
-                        '.port-body': {
-                            fill: '#E74C3C',
-                        },
-                    },
-                },
-            },
-        },
-        attrs: {
-            '.label': { text: 'Model', 'ref-x': 0.5, 'ref-y': 0.2 },
-            rect: { fill: '#2ECC71' },
-        },
-        position: { x: 50, y: 50 },
-        size: { width: 90, height: 90 },
-    };
-
     constructor() {
         super();
-
-        // init graph
-        this.graph = new joint.dia.Graph();
 
         // element reference for the canvas
         this.reference = null;
 
-        const {
-            inPorts,
-            outPorts,
-            ports,
-            attrs,
-            position,
-            size,
-        } = this.constructor.options;
-
-        // initial cells to render
+        // initial state
         this.state = {
-            element: new joint.shapes.devs.Model({
-                inPorts,
-                outPorts,
-                ports,
-                attrs,
-                position,
-                size,
-            }),
-            inPorts: [],
-            outPorts: [],
+            error: '',
+
+            // shape options
+            options: {
+                inPorts: [],
+                outPorts: [],
+                posts: {
+                    groups: {
+                        in: {
+                            attrs: {
+                                '.port-body': {
+                                    fill: colors.inPort,
+                                },
+                            },
+                        },
+                        out: {
+                            attrs: {
+                                '.port-body': {
+                                    fill: colors.outPort,
+                                },
+                            },
+                        },
+                    },
+                },
+                attrs: {
+                    '.label': {
+                        text: 'Model',
+                        'ref-x': 0.5,
+                        'ref-y': 0.2,
+                        fill: colors.mainWhite,
+                    },
+                    rect: { fill: colors.mainAction },
+                },
+                position: { x: 50, y: 50 },
+                size: { width: 90, height: 90 },
+            },
         };
+
+        const { options } = this.state;
+
+        // init Model shape
+        this.element = new joint.shapes.devs.Model(options);
     }
 
     componentDidMount() {
-        // create Paper
+        // init graph
+        this.graph = new joint.dia.Graph();
+
+        // init paper
         this.paper = new joint.dia.Paper({
             el: this.reference,
             height: this.reference.outerHeight,
@@ -76,49 +71,57 @@ class App extends React.Component {
             model: this.graph,
         });
 
-        const { element } = this.state;
-
         // render Model
-        element.addTo(this.graph);
+        this.element.addTo(this.graph);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { element, inPorts, outPorts } = this.state;
+        const { options } = this.state;
 
-        if (inPorts.length > prevState.inPorts.length) {
-            element.set('inPorts', inPorts);
-        }
-        if (outPorts.length > prevState.outPorts.length) {
-            element.set('outPorts', outPorts);
-        }
+        const { inPorts, outPorts } = options;
+        const prevInPorts = prevState.options.inPorts;
+        const prevOutPorts = prevState.options.outPorts;
 
-        return null;
+        // setting ports
+        if (inPorts.length > prevInPorts.length) {
+            this.element.set('inPorts', inPorts);
+        }
+        if (outPorts.length > prevOutPorts.length) {
+            this.element.set('outPorts', outPorts);
+        }
     }
 
+    /**
+     * Adds new ports
+     * @method
+     * @param {string} name - New port name
+     * @param {string} type - Type of the port (inPorts/outPorts)
+     */
     addPort = (name, type) => {
-        if (type === 'inPorts') {
-            let { inPorts } = this.state;
+        const { options } = this.state;
+        const { inPorts, outPorts } = options;
 
-            inPorts = [...inPorts];
-            inPorts.push(name);
+        const ports = (type === 'inPorts') ? [...inPorts] : [...outPorts];
 
-            this.setState({ inPorts });
+        if (!ports.includes(name)) {
+            ports.push(name);
+        } else {
+            this.setState({ error: 'Port already exist' });
         }
-        if (type === 'outPorts') {
-            let { outPorts } = this.state;
 
-            outPorts = [...outPorts];
-            outPorts.push(name);
-
-            this.setState({ outPorts });
-        }
+        this.setState({ options: { ...options, [type]: ports } });
     }
 
     render() {
+        const { error } = this.state;
+
         return (
             <div className="app">
                 <div className="app__side-panel">
                     <AddPort addPort={this.addPort} />
+                    {error && (
+                        <p className="error">{error}</p>
+                    )}
                 </div>
                 <div
                     className="app__main-panel"
