@@ -1,0 +1,25 @@
+$main-color: #677294;
+$main-bg-color: #e2e2e2;
+$main-white: #fff;
+$main-black: #000;
+$main-border-color: #444;
+$main-action-color: #5F3794;
+$hover-action-color: #9E5BF6;
+$in-port-color: #1100ff;
+$out-port-color: #00945b;
+$bg-grid-color: rgba(17, 0, 255, 0.1);
+$error-color: #ff0000;
+
+:export {
+    main: $main-color;
+    mainBg: $main-bg-color;
+    mainWhite: $main-white;
+    mainBlack: $main-black;
+    mainBorder: $main-border-color;
+    mainAction: $main-action-color;
+    hoverAction: $hover-action-color;
+    in-port: $in-port-color;
+    out-port: $out-port-color;
+    bgGrid: $bg-grid-color;
+    error: $error-color;
+}

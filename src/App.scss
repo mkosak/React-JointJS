@@ -1,0 +1,65 @@
+@import "./colors.module.scss";
+
+@mixin panelsHeight($pad) {
+  height: calc(100% - ($pad * 2)); // full height minus padding
+}
+
+.app {
+  display: flex;
+  height: 100%;
+  color: $main-color;
+
+  &__side-panel {
+    width: 15%;
+    min-width: 15rem;
+    @include panelsHeight(2rem);
+    padding: 2rem;
+    border-right: 2px solid $main-border-color;
+  }
+  &__main-panel {
+    width: 100%;
+    @include panelsHeight(2rem);
+    padding: 2rem;
+    background: $main-bg-color;
+    background-image: 
+      linear-gradient($bg-grid-color .1rem, transparent .1rem), 
+      linear-gradient(90deg, $bg-grid-color .1rem, transparent .1rem);
+    background-size: 1rem 1rem;
+  }
+}
+
+.add-port {
+  &__control {
+    padding-bottom: 1rem;
+
+    label {
+      padding-right: 0.5rem;
+    }
+
+    input {
+      border: 1px solid $main-border-color;
+      background: none;
+      border-radius: 0.2rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+  &__button {
+    border: none;
+    color: $main-white;
+    border-radius: 0.2rem;
+    padding: 0.5rem 1.25rem;
+    background-color: $main-action-color;
+    transition: all 0.5s ease;
+
+    &:hover {
+      cursor: pointer;
+      text-shadow: 0 0 1px rgba(0,0,0,.2);
+      background-color: $hover-action-color;
+    }
+  }
+}
+
+.error {
+  font-size: .8rem;
+  color: $error-color;
+}
