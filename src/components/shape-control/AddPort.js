@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class AddPort extends React.Component {
-    static propTypes = {
-        addPort: PropTypes.func.isRequired,
-    }
-
     constructor() {
         super();
 
@@ -50,17 +46,23 @@ class AddPort extends React.Component {
         const { name, type } = this.state;
         const { addPort } = this.props;
 
-        if (name !== undefined) {
+        if (name !== '') {
             // call prop
             addPort(name, type);
 
             // clear the name field
             this.setState({ ...this.state, name: '' });
+        } else {
+            this.setState({ error: 'Please type port name' }, () => {
+                setTimeout(() => {
+                    this.setState({ error: '' });
+                }, 1500);
+            });
         }
     }
 
     render() {
-        const { name, type } = this.state;
+        const { name, type, error } = this.state;
         return (
             <form className="add-port">
                 <div className="add-port__control">
@@ -85,9 +87,12 @@ class AddPort extends React.Component {
                         onChange={this.onChangeName}
                         placeholder="Port name"
                     />
+                    {error && (
+                        <p className="error">{error}</p>
+                    )}
                 </div>
                 <button
-                    className="add-port__button"
+                    className="add-port__button btn"
                     type="submit"
                     onClick={this.addNewPort}
                 >
@@ -97,5 +102,9 @@ class AddPort extends React.Component {
         );
     }
 }
+
+AddPort.propTypes = {
+    addPort: PropTypes.func.isRequired,
+};
 
 export default AddPort;
