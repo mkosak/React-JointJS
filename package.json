@@ -12,13 +12,13 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
+    "react-scripts": "4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -31,5 +31,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://mkosak.github.io/React-JointJS/"
 }

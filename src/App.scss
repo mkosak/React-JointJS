@@ -1,9 +1,5 @@
 @import "./colors.module.scss";
 
-@mixin panelsHeight($pad) {
-  height: calc(100% - ($pad * 2)); // full height minus padding
-}
-
 .app {
   display: flex;
   height: 100%;
@@ -12,14 +8,13 @@
   &__side-panel {
     width: 15%;
     min-width: 15rem;
-    @include panelsHeight(2rem);
     padding: 2rem;
+    height: calc(100% - (2rem * 2)); // full height minus padding
     border-right: 2px solid $main-border-color;
   }
   &__main-panel {
     width: 100%;
-    @include panelsHeight(2rem);
-    padding: 2rem;
+    height: 100%;
     background: $main-bg-color;
     background-image: 
       linear-gradient($bg-grid-color .1rem, transparent .1rem), 
